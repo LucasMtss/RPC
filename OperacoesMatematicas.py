@@ -30,23 +30,33 @@ class OperacoesMatematicas:
         return data.decode('utf-8').replace("'", '"')
     
     def soma(self, args):
-        servidor = json.loads(self.getServerForOperation('soma'))
+        servidores = json.loads(self.getServerForOperation('soma'))
         message = encode_message('soma', args)
-
         newSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        newSocket.connect((servidor['ip'], servidor['port']))
 
+        for servidor in servidores:
+            print(servidor)
+            try:
+                newSocket.connect((servidor['ip'], servidor['port']))
+                break
+            except BrokenPipeError or BrokenPipeError:
+                continue
         newSocket.sendall(message.encode())
         data = newSocket.recv(1024)
         newSocket.close()
         return data.decode('utf-8')
 
     def produto(self, args):
-        servidor = json.loads(self.getServerForOperation('produto'))
+        servidores = json.loads(self.getServerForOperation('produto'))
         message = encode_message('produto', args)
-
         newSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        newSocket.connect((servidor['ip'], servidor['port']))
+
+        for servidor in servidores:
+            try:
+                newSocket.connect((servidor['ip'], servidor['port']))
+                break
+            except:
+                continue
 
         newSocket.sendall(message.encode())
         data = newSocket.recv(1024)
@@ -54,11 +64,16 @@ class OperacoesMatematicas:
         return data.decode('utf-8')
 
     def fatorial(self, x):
-        servidor = json.loads(self.getServerForOperation('fatorial'))
+        servidores = json.loads(self.getServerForOperation('fatorial'))
         message = encode_message('fatorial', [x])
-
         newSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        newSocket.connect((servidor['ip'], servidor['port']))
+        
+        for servidor in servidores:
+            try:
+                newSocket.connect((servidor['ip'], servidor['port']))
+                break
+            except:
+                continue
 
         newSocket.sendall(message.encode())
         data = newSocket.recv(1024)
@@ -66,11 +81,17 @@ class OperacoesMatematicas:
         return data.decode('utf-8')
     
     def numeroPrimo(self, x):
-        servidor = json.loads(self.getServerForOperation('primo'))
+        servidores = json.loads(self.getServerForOperation('primo'))
         message = encode_message('primo', [x])
 
         newSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        newSocket.connect((servidor['ip'], servidor['port']))
+        
+        for servidor in servidores:
+            try:
+                newSocket.connect((servidor['ip'], servidor['port']))
+                break
+            except:
+                continue
 
         newSocket.sendall(message.encode())
         data = newSocket.recv(1024)
@@ -78,11 +99,17 @@ class OperacoesMatematicas:
         return data.decode('utf-8')
 
     def realDolar(self, x):
-        servidor = json.loads(self.getServerForOperation('convert'))
+        servidores = json.loads(self.getServerForOperation('convert'))
         message = encode_message('convert', [x])
 
         newSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        newSocket.connect((servidor['ip'], servidor['port']))
+        
+        for servidor in servidores:
+            try:
+                newSocket.connect((servidor['ip'], servidor['port']))
+                break
+            except:
+                continue
 
         newSocket.sendall(message.encode())
         data = newSocket.recv(1024)

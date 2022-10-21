@@ -7,18 +7,15 @@ PORT = 65432
 HOST = "127.0.0.1"  # Standard loopback interface address (localhost)
 DEFAULT_PORT = 5000
 nomes = {
-    "soma": [{"ip": "localhost", "port": DEFAULT_PORT}],
-    "produto": [{"ip": "localhost", "port": DEFAULT_PORT}],
-    "fatorial": [{"ip": "10.3.1.18", "port": DEFAULT_PORT}],
-    "primo": [{"ip": "10.3.1.18", "port": DEFAULT_PORT}],
-    "convert": [{"ip": "10.3.1.18", "port": DEFAULT_PORT}],
+    "soma": [{"ip": "localhost", "port": DEFAULT_PORT}, {"ip": "10.3.1.18", "port": DEFAULT_PORT}],
+    "produto": [{"ip": "localhost", "port": DEFAULT_PORT}, {"ip": "10.3.1.18", "port": DEFAULT_PORT}],
+    "fatorial": [{"ip": "localhost", "port": DEFAULT_PORT}, {"ip": "10.3.1.18", "port": DEFAULT_PORT}],
+    "primo": [{"ip": "localhost", "port": DEFAULT_PORT}, {"ip": "10.3.1.18", "port": DEFAULT_PORT}],
+    "convert": [{"ip": "localhost", "port": DEFAULT_PORT}, {"ip": "10.3.1.18", "port": DEFAULT_PORT}],
 }
 
 def get_operation(message):
     return message.split('#')[0]
-
-def generateRandomIndex(listLength):
-    return random.randint(0,listLength-1)
 
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     s.bind((HOST, PORT))
@@ -32,12 +29,17 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             if not data:
                 break
             if get_operation(data) == 'soma':
-                conn.sendall(str(nomes['soma'][generateRandomIndex(len(nomes['soma']))]).encode())
+                random.shuffle(nomes['soma'])
+                conn.sendall(str(nomes['soma']).encode())
             elif get_operation(data) == 'produto':
-                conn.sendall(str(nomes['produto'][generateRandomIndex(len(nomes['produto']))]).encode())
+                random.shuffle(nomes['produto'])
+                conn.sendall(str(nomes['produto']).encode())
             elif get_operation(data) == 'fatorial':
-                conn.sendall(str(nomes['fatorial'][generateRandomIndex(len(nomes['fatorial']))]).encode())
+                random.shuffle(nomes['fatorial'])
+                conn.sendall(str(nomes['fatorial']).encode())
             elif get_operation(data) == 'primo':
-                conn.sendall(str(nomes['primo'][generateRandomIndex(len(nomes['primo']))]).encode())
+                random.shuffle(nomes['primo'])
+                conn.sendall(str(nomes['primo']).encode())
             elif get_operation(data) == 'convert':
-                conn.sendall(str(nomes['convert'][generateRandomIndex(len(nomes['convert']))]).encode())
+                random.shuffle(nomes['convert'])
+                conn.sendall(str(nomes['convert']).encode())
