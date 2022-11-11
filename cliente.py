@@ -1,6 +1,7 @@
 import re
 from OperacoesMatematicas import OperacoesMatematicas
 from FormatMessage import encode_message
+import datetime
 
 calculadora = OperacoesMatematicas('localhost', 65432)
 opcao = 0
@@ -50,12 +51,13 @@ while opcao != '6':
   [3] fatorial
   [4] numeros primos
   [5] converter real para dólar
-  [6] sair\n''')
+  [6] ajustar horário
+  [7] sair\n''')
   retorno = 0
   if(validate_operation(opcao) == False):
     print('\nErro, operação inválida!\n')
     continue
-  if opcao == '6':
+  if opcao == '7':
     break
   if opcao == '3':
     retorno = get_one_param()
@@ -66,6 +68,10 @@ while opcao != '6':
   elif opcao == '4':
     retorno = get_length_of_list()
     print('\nNúmeros primos de 1 a ', retorno, ' = ', calculadora.numeroPrimo(retorno))
+  elif opcao == '6':
+    date = datetime.datetime(2022,11,11, 15, 30).timestamp() * 1000
+    print('DATA', date)
+    print('\nDiferença de horário ', date, ' = ', calculadora.horaCerta(date))
   else:
     retorno = get_any_params()
     if opcao == '1':

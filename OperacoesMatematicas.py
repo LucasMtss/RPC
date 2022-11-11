@@ -25,7 +25,6 @@ class OperacoesMatematicas:
             return searchInCash(operation)
         self.socket.sendall(operation.encode())
         data = self.socket.recv(1024)
-        print('NOMES ',data.decode())
         storageInCash(operation, data.decode('utf-8').replace("'", '"'))
         return data.decode('utf-8').replace("'", '"')
     
@@ -102,6 +101,23 @@ class OperacoesMatematicas:
         servidores = json.loads(self.getServerForOperation('convert'))
         message = encode_message('convert', [x])
 
+        newSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        
+        for servidor in servidores:
+            try:
+                newSocket.connect((servidor['ip'], servidor['port']))
+                break
+            except:
+                continue
+
+        newSocket.sendall(message.encode())
+        data = newSocket.recv(1024)
+        newSocket.close()
+        return data.decode('utf-8')
+    
+    def horaCerta(self, date):
+        servidores = json.loads(self.getServerForOperation('horaCerta'))
+        message = encode_message('convert', [date])
         newSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         
         for servidor in servidores:

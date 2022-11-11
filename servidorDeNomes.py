@@ -7,11 +7,12 @@ PORT = 65432
 HOST = "127.0.0.1"  # Standard loopback interface address (localhost)
 DEFAULT_PORT = 5000
 nomes = {
-    "soma": [{"ip": "localhost", "port": DEFAULT_PORT}, {"ip": "10.3.1.18", "port": DEFAULT_PORT}],
-    "produto": [{"ip": "localhost", "port": DEFAULT_PORT}, {"ip": "10.3.1.18", "port": DEFAULT_PORT}],
-    "fatorial": [{"ip": "localhost", "port": DEFAULT_PORT}, {"ip": "10.3.1.18", "port": DEFAULT_PORT}],
-    "primo": [{"ip": "localhost", "port": DEFAULT_PORT}, {"ip": "10.3.1.18", "port": DEFAULT_PORT}],
-    "convert": [{"ip": "localhost", "port": DEFAULT_PORT}, {"ip": "10.3.1.18", "port": DEFAULT_PORT}],
+    "soma": [{"ip": "localhost", "port": DEFAULT_PORT}, {"ip": "127.0.0.1", "port": DEFAULT_PORT}],
+    "produto": [{"ip": "localhost", "port": DEFAULT_PORT}, {"ip": "127.0.0.1", "port": DEFAULT_PORT}],
+    "fatorial": [{"ip": "localhost", "port": DEFAULT_PORT}, {"ip": "127.0.0.1", "port": DEFAULT_PORT}],
+    "primo": [{"ip": "localhost", "port": DEFAULT_PORT}, {"ip": "127.0.0.1", "port": DEFAULT_PORT}],
+    "convert": [{"ip": "localhost", "port": DEFAULT_PORT}, {"ip": "127.0.0.1", "port": DEFAULT_PORT}],
+    "horaCerta": [{"ip": "localhost", "port": DEFAULT_PORT}, {"ip": "127.0.0.1", "port": DEFAULT_PORT}],
 }
 
 def get_operation(message):
@@ -43,3 +44,6 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             elif get_operation(data) == 'convert':
                 random.shuffle(nomes['convert'])
                 conn.sendall(str(nomes['convert']).encode())
+            elif get_operation(data) == 'horaCerta':
+                random.shuffle(nomes['horaCerta'])
+                conn.sendall(str(nomes['horaCerta']).encode())

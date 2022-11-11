@@ -86,6 +86,12 @@ def realToDolar(args):
     res = req.json()
     return str(float(args[0]) * float(res['USDBRL']['bid']))
 
+def get_temp_diff(temp){
+    print('TEMP', float(temp[0]))
+    print('ATUAL', time.time())
+    return time.time() - float(temp[0])
+}
+
 
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     print('Servidor rodando na porta ', PORT)
@@ -107,6 +113,8 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             conn.sendall(numerosPrimos(get_args(data)).encode())
         elif get_operation(data) == 'convert':
             conn.sendall(realToDolar(get_args(data)).encode())
+        elif get_operation(data) == 'horaCerta':
+            conn.sendall(get_temp_diff(get_args(data)).encode())
     conn.close()
     s.close()
             
