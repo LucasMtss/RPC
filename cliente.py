@@ -39,11 +39,11 @@ def validate_option(opcao):
     return False
 
 def validate_operation(opcao):
-  return True if opcao in ['1', '2', '3', '4', '5', '6'] else False
+  return True if opcao in ['1', '2', '3', '4', '5', '6', '7'] else False
     
 
 
-while opcao != '6':
+while opcao != '7':
   opcao = input('''
   Selecione a opção:
   [1] soma

@@ -12,6 +12,10 @@ PORT = 5000  # Port to listen on (non-privileged ports are > 1023)
 # number of cores
 cores=multiprocessing.cpu_count()
 cash = {}
+cashDolar = {
+    "lastUpdate": 0,
+    "dolarValue": 0
+}
 
 def createKey(operation, args):
     return operation+str(args)
@@ -82,15 +86,19 @@ def numerosPrimos(args):
     return str([number for number in resp if number != False])
 
 def realToDolar(args):
+    if cashDolar["lastUpdate"] and time.time() - cashDolar["lastUpdate"] < 100000:
+        return str(float(args[0]) * cashDolar["dolarValue"])
     req = requests.get('https://economia.awesomeapi.com.br/last/USD-BRL')
     res = req.json()
+    cashDolar["lastUpdate"] = time.time()
+    cashDolar["dolarValue"] = float(res['USDBRL']['bid'])
     return str(float(args[0]) * float(res['USDBRL']['bid']))
 
-def get_temp_diff(temp){
+def get_temp_diff(temp):
     print('TEMP', float(temp[0]))
     print('ATUAL', time.time())
     return time.time() - float(temp[0])
-}
+
 
 
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
